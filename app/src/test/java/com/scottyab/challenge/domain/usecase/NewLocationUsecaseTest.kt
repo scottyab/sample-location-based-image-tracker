@@ -68,4 +68,4 @@ class NewLocationUsecaseTest {
         private val aLocation = Location(latitude = "1.0", longitude = "1.0")
         private val aNewLocation = Location(latitude = "1.1", longitude = "1.1")
     }
-} 
+}
