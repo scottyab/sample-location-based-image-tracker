@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Scott Challenge</string>
+    <string name="cd_snapshot_list_thumb">Snapshot image</string>
+    <string name="snapshot_start_tracking">Start</string>
+    <string name="snapshot_stop_tracking">Stop</string>
+    <string name="snapshot_reset">Reset</string>
+    <string name="snapshot_share">Share</string>
+    <string name="snapshot_share_text">Check out this image from our recent activity %1$s</string>
+
+
+    <string name="location_permission_granted_msg">All permissions granted, Thanks!</string>
+    <string name="location_permission_denied_action">Settings</string>
+    <string name="location_permission_denied_msg">Precise location is needed for the app to function correctly</string>
+
+    <string name="background_location_permission_denied_msg">Background location permission is required to allow the app to function in the background.</string>
+
+    <string name="notification_channel_name">Snapshot tracker</string>
+    <string name="notification_title">Snapshot Tracker</string>
+    <string name="notification_content">Snapshot tracker is tracking your location in the background</string>
+    <string name="notification_action_stop">Stop</string>
+
+    <string name="activity_start_tracking">Start</string>
+    <string name="cd_new_activity">Start new Activity</string>
+    <string name="activities_title">Recorded Activities</string>
+    <string name="activities_empty_text">No activities recorded, tap the plus Icon to start recording a new Activity.</string>
+
+</resources>

@@ -1,0 +1,120 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "org.jetbrains.kotlin.plugin.parcelize"
+
+android {
+    compileSdkVersion 33
+
+    defaultConfig {
+        applicationId "com.scottyab.challenge"
+        minSdkVersion 26
+        targetSdkVersion 33
+        versionCode 2
+        versionName "1.1"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "FLICKR_API_KEY", "\"db4d8e7389523f8b31a0d40e9066c72d\"")
+        buildConfigField("String", "FLICKR_BASE_URL", "\"https://api.flickr.com/\"")
+        buildConfigField("Boolean", "SAMPLE_LOCATIONS", "false")
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    signingConfigs {
+        // NOTE: in a real project this would be defined in CI not source control
+        release {
+            storeFile file("../signing/sample-key.keystore")
+            storePassword "sample"
+            keyAlias "sample"
+            keyPassword "sample"
+        }
+    }
+
+    buildTypes {
+        // Used during development.
+        debug {
+            manifestPlaceholders.usesCleartextTraffic = "true"
+            isDefault.set(true) // When the project is first imported. This variant will be selected
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+            debuggable true
+        }
+
+        // Enables the hard coded sample locations
+        sample {
+            manifestPlaceholders.usesCleartextTraffic = "true"
+            debuggable true
+            applicationIdSuffix '.sample'
+            versionNameSuffix '-sample'
+            buildConfigField("Boolean", "SAMPLE_LOCATIONS", "true")
+            signingConfig signingConfigs.release
+        }
+
+        release {
+            manifestPlaceholders.usesCleartextTraffic = "false"
+            debuggable false
+            signingConfig signingConfigs.release
+        }
+    }
+
+}
+
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+    implementation 'androidx.databinding:viewbinding:7.3.1'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
+    implementation("io.coil-kt:coil:2.2.2")
+
+    implementation "io.insert-koin:koin-android:3.2.2"
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    // DB
+    implementation "androidx.room:room-runtime:2.5.0"
+    kapt "androidx.room:room-compiler:2.5.0"
+    implementation "androidx.room:room-ktx:2.5.0"
+
+    // Networking
+    implementation 'com.squareup.moshi:moshi:1.12.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.12.0'
+    implementation 'com.squareup.moshi:moshi-adapters:1.11.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
+
+    // debug only
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+
+    // Tests
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.assertj:assertj-core:3.20.2'
+    testImplementation 'org.mockito:mockito-inline:3.3.3'
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation "io.insert-koin:koin-test-junit4:3.2.2"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+    testImplementation "io.insert-koin:koin-test:3.2.2"
+    testImplementation "io.insert-koin:koin-test-junit4:3.2.2"
+    testImplementation 'app.cash.turbine:turbine:0.12.1'
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
