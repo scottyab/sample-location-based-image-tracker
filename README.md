@@ -2,14 +2,26 @@
 
 The goal of this sample app is to demonstrate my technical ability and preferred working architecture completed within couple of days. 
 
-* [Loom video](https://loom.com/share/0b10dc86fc114798ab3127ab93eba920) the walks through code and demos app. This is typical of the type of video I would record for a PR review or feature demo. 
-* [app-release.apk](https://drive.google.com/file/d/1_gpzZCuQvaieefcngmTscR4cYLpYg7NG/view?usp=sharing) - This apk uses the Fused Google Location Provider
+### Deliverables  
+* [Loom video](https://loom.com/share/0b10dc86fc114798ab3127ab93eba920) **Watch this first** as 
+  it walks through this readme, demos the app and mentions key classes for review. This is 
+  typical of 
+  the type of video I 
+  would 
+  record 
+  for a PR review or feature demo. 
+* [app-release.apk](deliverables/app-release-v1.1.apk) - This is the release apk.
+* This readme which details the up front analysis, planning and thought processes. 
 
-Important classes for review
+### Important classes for review
 
-* RealSnapshotRepository
-* SnapshotTracker
-* SnapshotViewModel
+* [RealSnapshotRepository](https://github.
+  com/scottyab/sample-location-based-image-tracker/blob/main/app/src/main/java/com/scottyab
+  /challenge/data/RealSnapshotRepository.kt) and it's [test](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/test/java/com/scottyab/challenge/data/RealSnapshotRepositoryTest.kt)
+* [SnapshotTracker](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/main/java/com/scottyab/challenge/domain/SnapshotTracker.kt) and it's [test](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/test/java/com/scottyab/challenge/domain/SnapshotTrackerTest.kt)
+* [SnapshotViewModel](https://github.com/scottyab/sample-location-based-image-tracker/blob/main
+  /app/src/main/java/com/scottyab/challenge/presentation/snapshots/SnapshotsViewModel.kt) and 
+  it's [test](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/test/java/com/scottyab/challenge/presentation/snapshots/SnapshotsViewModelTest.kt) 
 
 
 ## Brief: Location based image tracker
