@@ -2,8 +2,8 @@ package com.scottyab.challenge.data.datasource.location
 
 import android.content.Context
 import com.scottyab.challenge.domain.model.Location
+import com.scottyab.challenge.presentation.common.AppCoroutineScope
 import com.squareup.moshi.Moshi
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
  */
 class SampleLocationProvider(
     private val context: Context,
-    private val coroutineScope: CoroutineScope,
+    private val appCoroutineScope: AppCoroutineScope,
     private val moshi: Moshi,
     private val updateIntervalInMilli: Long = 4_000L
 ) : LocationProvider {
@@ -32,7 +32,7 @@ class SampleLocationProvider(
             stop()
         }
         val sampleLocations = loadSampleDataFromAssets()
-        job = coroutineScope.launch {
+        job = appCoroutineScope.launch {
             sampleLocations.forEach { location ->
                 internalFlow.emit(location)
                 delay(updateIntervalInMilli)

@@ -7,7 +7,7 @@ import com.scottyab.challenge.domain.usecase.NewLocationUsecase
 import com.scottyab.challenge.domain.usecase.NewLocationUsecaseResult
 import com.scottyab.challenge.domain.usecase.StartActivityUsecase
 import com.scottyab.challenge.domain.usecase.StartActivityUsecaseResult
-import kotlinx.coroutines.CoroutineScope
+import com.scottyab.challenge.presentation.common.AppCoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,20 +16,24 @@ import kotlinx.coroutines.launch
 import org.jetbrains.annotations.TestOnly
 import timber.log.Timber
 
+/**
+ * Central place to control the snapshot tracking and observe current state
+ */
 class SnapshotTracker(
     private val locationProvider: LocationProvider,
     private val newLocationUsecase: NewLocationUsecase,
     private val startActivityUsecase: StartActivityUsecase,
-    private val appCoroutineScope: CoroutineScope
+    private val appCoroutineScope: AppCoroutineScope
 ) {
     private var job: Job? = null
 
     @TestOnly
     var previousLocation: Location? = null
 
+    // replay=1 will resend the latest item to new subscribers
     private val internalFlow = MutableSharedFlow<TrackingState>(replay = 1)
 
-    // the public version of our flow is a SharedFlow as it's Read only
+    // the public version of our flow is a SharedFlow as it's Read only and supports multiple consumers
     val state: Flow<TrackingState> = internalFlow.asSharedFlow()
 
     fun start() {

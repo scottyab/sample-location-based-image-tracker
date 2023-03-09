@@ -14,6 +14,7 @@ import com.scottyab.challenge.domain.usecase.NewLocationUsecaseResult
 import com.scottyab.challenge.domain.usecase.StartActivityUsecase
 import com.scottyab.challenge.domain.usecase.StartActivityUsecaseResult
 import com.scottyab.challenge.isInstanceOf
+import com.scottyab.challenge.presentation.common.AppCoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancelChildren
@@ -57,8 +58,7 @@ class SnapshotTrackerTest {
             locationProvider = locationProvider,
             newLocationUsecase = newLocationUsecase,
             startActivityUsecase = startActivityUsecase,
-            appCoroutineScope = TestScope()
-
+            appCoroutineScope = AppCoroutineScope(testDispatcher)
         )
     }
 

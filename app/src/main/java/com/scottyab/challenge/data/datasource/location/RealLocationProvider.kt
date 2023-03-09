@@ -2,6 +2,7 @@ package com.scottyab.challenge.data.datasource.location
 
 import android.content.Context
 import com.scottyab.challenge.domain.model.Location
+import com.scottyab.challenge.presentation.common.AppCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -11,14 +12,14 @@ import timber.log.Timber
 
 class RealLocationProvider(
     private val context: Context,
-    private val coroutineScope: CoroutineScope
+    private val appCoroutineScope: AppCoroutineScope
 ) : LocationProvider {
 
     private val internalFlow = MutableSharedFlow<Location>(replay = 0)
     override val locationUpdated: SharedFlow<Location> = internalFlow.asSharedFlow()
 
     internal fun locationUpdated(currentLocation: Location) {
-        coroutineScope.launch {
+        appCoroutineScope.launch {
             internalFlow.emit(currentLocation)
         }
     }
