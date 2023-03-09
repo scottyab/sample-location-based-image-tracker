@@ -33,7 +33,8 @@ class SnapshotTracker(
     // replay=1 will resend the latest item to new subscribers
     private val internalFlow = MutableSharedFlow<TrackingState>(replay = 1)
 
-    // the public version of our flow is a SharedFlow as it's Read only and supports multiple consumers
+    // the public version of our flow is a SharedFlow as it's Read only, supports multiple consumers,
+    // and will stay active regardless of collectors
     val state: Flow<TrackingState> = internalFlow.asSharedFlow()
 
     fun start() {
