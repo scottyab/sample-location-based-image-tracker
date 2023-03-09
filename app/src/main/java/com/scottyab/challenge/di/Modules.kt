@@ -36,7 +36,6 @@ import com.scottyab.challenge.presentation.snapshots.SnapshotUiMapper
 import com.scottyab.challenge.presentation.snapshots.SnapshotsViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -47,7 +46,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 val appModule = module {
     single<ImageLoader> { CoilImageLoader() }
-    single { AppCoroutineScope(Dispatchers.IO) }
+    single { AppCoroutineScope() }
     single<AndroidResources> { AndroidResourcesProvider(androidContext()) }
     factory { SimpleThrottler() }
     single { androidContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
@@ -125,7 +124,7 @@ val domainModule = module {
             locationProvider = get(),
             newLocationUsecase = get(),
             startActivityUsecase = get(),
-            appCoroutineScope = get<AppCoroutineScope>()
+            appCoroutineScope = get()
         )
     }
 }
@@ -145,7 +144,7 @@ val dataModule = module {
     single {
         RealLocationProvider(
             context = androidContext(),
-            coroutineScope = get<AppCoroutineScope>()
+            appCoroutineScope = get()
         )
     }
 
@@ -154,7 +153,7 @@ val dataModule = module {
             SampleLocationProvider(
                 context = androidContext(),
                 moshi = get(),
-                coroutineScope = get<AppCoroutineScope>()
+                appCoroutineScope = get()
             )
         } else {
             get<RealLocationProvider>()
