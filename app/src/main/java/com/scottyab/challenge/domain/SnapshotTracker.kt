@@ -6,6 +6,7 @@ import com.scottyab.challenge.domain.model.TrackingState
 import com.scottyab.challenge.domain.usecase.NewLocationUsecase
 import com.scottyab.challenge.domain.usecase.NewLocationUsecaseResult
 import com.scottyab.challenge.domain.usecase.StartActivityUsecase
+import com.scottyab.challenge.domain.usecase.StopActivityUsecase
 import com.scottyab.challenge.domain.usecase.StartActivityUsecaseResult
 import com.scottyab.challenge.presentation.common.AppCoroutineScope
 import kotlinx.coroutines.Job
@@ -23,6 +24,7 @@ class SnapshotTracker(
     private val locationProvider: LocationProvider,
     private val newLocationUsecase: NewLocationUsecase,
     private val startActivityUsecase: StartActivityUsecase,
+    private val stopActivityUsecase: StopActivityUsecase,
     private val appCoroutineScope: AppCoroutineScope
 ) {
     private var job: Job? = null
@@ -59,6 +61,7 @@ class SnapshotTracker(
     fun stop() {
         locationProvider.stop()
         appCoroutineScope.launch {
+            stopActivityUsecase.invoke()
             internalFlow.emit(TrackingState.Stopped)
         }
         job?.cancel()

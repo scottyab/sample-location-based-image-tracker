@@ -73,8 +73,8 @@ interface ActivityDao {
     @Insert(onConflict = ABORT)
     suspend fun insert(activityDb: ActivityDb)
 
-    @Query("UPDATE Activity SET title = :title, finished_at = :finishedAt WHERE id = :activityId  ")
-    suspend fun update(activityId: String, title: String, finishedAt: LocalDateTime)
+    @Query("UPDATE Activity SET finished_at = :finishedAt WHERE id = :activityId  ")
+    suspend fun finish(activityId: String, finishedAt: LocalDateTime)
 
     @Query("DELETE FROM Activity WHERE id = :activityId")
     suspend fun delete(activityId: String)

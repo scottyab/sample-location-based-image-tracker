@@ -13,12 +13,12 @@ import com.scottyab.challenge.domain.usecase.NewLocationUsecase
 import com.scottyab.challenge.domain.usecase.NewLocationUsecaseResult
 import com.scottyab.challenge.domain.usecase.StartActivityUsecase
 import com.scottyab.challenge.domain.usecase.StartActivityUsecaseResult
+import com.scottyab.challenge.domain.usecase.StopActivityUsecase
 import com.scottyab.challenge.isInstanceOf
 import com.scottyab.challenge.presentation.common.AppCoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancelChildren
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -43,6 +43,9 @@ class SnapshotTrackerTest {
     private lateinit var startActivityUsecase: StartActivityUsecase
 
     @Mock
+    private lateinit var stopActivityUsecase: StopActivityUsecase
+
+    @Mock
     private lateinit var newLocationUsecase: NewLocationUsecase
 
     @Mock
@@ -58,6 +61,7 @@ class SnapshotTrackerTest {
             locationProvider = locationProvider,
             newLocationUsecase = newLocationUsecase,
             startActivityUsecase = startActivityUsecase,
+            stopActivityUsecase = stopActivityUsecase,
             appCoroutineScope = AppCoroutineScope(testDispatcher)
         )
     }
@@ -94,6 +98,7 @@ class SnapshotTrackerTest {
                 assertThat(awaitItem()).isEqualTo(TrackingState.Stopped)
             }
             verify(locationProvider).stop()
+            verify(stopActivityUsecase).invoke()
         }
     }
 

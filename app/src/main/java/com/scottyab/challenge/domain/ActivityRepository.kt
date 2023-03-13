@@ -14,7 +14,7 @@ interface ActivityRepository {
 
     suspend fun newActivity(title: String): Activity
 
-    suspend fun updateActivity(activityId: String, title: String, finishedAt: LocalDateTime)
+    suspend fun finishActivity(activityId: String, finishedAt: LocalDateTime)
 
     suspend fun delete(activityId: String)
 }

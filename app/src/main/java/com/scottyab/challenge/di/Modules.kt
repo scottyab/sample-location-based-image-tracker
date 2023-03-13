@@ -25,6 +25,7 @@ import com.scottyab.challenge.domain.mappers.PhotoMapper
 import com.scottyab.challenge.domain.mappers.SnapshotMapper
 import com.scottyab.challenge.domain.usecase.NewLocationUsecase
 import com.scottyab.challenge.domain.usecase.StartActivityUsecase
+import com.scottyab.challenge.domain.usecase.StopActivityUsecase
 import com.scottyab.challenge.presentation.activities.ActivitiesViewModel
 import com.scottyab.challenge.presentation.common.AndroidResources
 import com.scottyab.challenge.presentation.common.AndroidResourcesProvider
@@ -113,6 +114,12 @@ val domainModule = module {
     }
 
     factory {
+        StopActivityUsecase(
+            activityRepository = get()
+        )
+    }
+
+    factory {
         StartActivityUsecase(
             activityNameGenerator = get(),
             activityRepository = get()
@@ -124,6 +131,7 @@ val domainModule = module {
             locationProvider = get(),
             newLocationUsecase = get(),
             startActivityUsecase = get(),
+            stopActivityUsecase = get(),
             appCoroutineScope = get()
         )
     }

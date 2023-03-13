@@ -18,6 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class NewLocationUsecaseTest {
     @Mock
     private lateinit var locationCalculator: LocationCalculator
+
     @Mock
     private lateinit var snapshotRepository: SnapshotRepository
 
@@ -31,7 +32,6 @@ class NewLocationUsecaseTest {
     @Test
     fun `onNewLocation SHOULD add a snapshot WHEN previousLocation is null`() {
         runTest {
-
             sut.invoke(anActivityId, null, aLocation)
 
             verifyZeroInteractions(locationCalculator)

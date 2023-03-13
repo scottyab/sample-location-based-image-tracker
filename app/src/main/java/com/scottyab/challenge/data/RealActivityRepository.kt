@@ -42,8 +42,9 @@ class RealActivityRepository(
 
     override fun getCurrentActivityId() = activityDao.getCurrentActivity().firstOrNull()?.activityId
 
-    override suspend fun updateActivity(activityId: String, title: String, finishedAt: LocalDateTime) {
-        activityDao.update(activityId, title, finishedAt)
+    override suspend fun finishActivity(activityId: String, finishedAt: LocalDateTime) {
+        activityDao.finish(activityId, finishedAt)
+        activityDao.clearCurrentActivity()
     }
 
     override suspend fun delete(activityId: String) {
