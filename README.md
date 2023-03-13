@@ -59,7 +59,7 @@ Here's the rough Architecture sketch I completed ahead of starting the implement
 this would be something I'd add to tech spec or share with team to seek peer review before 
 starting task.  
 
-[Arch diagram](/deliverables/challenge-arch.png) 
+[Arch diagram](/deliverables/challenge-arch-v3.png) 
 
 ## Task list
 
@@ -107,5 +107,13 @@ Some notes how I might look to enhance this further outside of the requirements
 * Allow photos to be taken and add them as Snapshots
 * Share multiple images  
 * Analytics
+
+#### Additional ideas to showcase skills/experience 
+
+* Automated version generation 
+* CI integration, run junit tests on PR
+ * Create beta pipeline to upload to appetize.io/appcircle 
+* CD integration with publishing to Play store triggered on tag
+
 
  
