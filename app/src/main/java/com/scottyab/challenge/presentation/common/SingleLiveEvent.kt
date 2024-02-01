@@ -14,24 +14,21 @@ import java.util.concurrent.atomic.AtomicBoolean
  * From https://abhiappmobiledeveloper.medium.com/android-singleliveevent-of-livedata-for-ui-event-35d0c58512da
  */
 class SingleLiveEvent<T> : MutableLiveData<T>() {
-
     private val mPending = AtomicBoolean(false)
 
     @MainThread
-    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
+    override fun observe(
+        owner: LifecycleOwner,
+        observer: Observer<in T>,
+    ) {
         if (hasActiveObservers()) {
             Timber.w(TAG, "Multiple observers registered but only one will be notified of changes.")
         } // Observe the internal MutableLiveData
-        super.observe(
-            owner,
-            object : Observer<T> {
-                override fun onChanged(t: T?) {
-                    if (mPending.compareAndSet(true, false)) {
-                        observer.onChanged(t)
-                    }
-                }
+        super.observe(owner) { t ->
+            if (mPending.compareAndSet(true, false)) {
+                observer.onChanged(t)
             }
-        )
+        }
     }
 
     @MainThread
@@ -46,7 +43,9 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
     @MainThread
     fun call() {
         setValue(null)
-    } companion object {
+    }
+
+    companion object {
         private val TAG = "SingleLiveEvent"
     }
 }
