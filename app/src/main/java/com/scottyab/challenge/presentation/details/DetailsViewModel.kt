@@ -18,7 +18,7 @@ class DetailsViewModel(
     private val snapshotRepository: SnapshotRepository,
     private val snapshotUiMapper: SnapshotUiMapper,
     private val snapshotId: String,
-    private val backgroundDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val backgroundDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel<DetailsState>(DetailsState()) {
     init {
         viewModelScope.launch {
@@ -47,7 +47,7 @@ data class DetailsState(
     val aSnapshot: SnapshotUi = EMPTY_SNAPSHOT,
     val showLoading: Boolean = false,
     val snackMessage: String = "",
-    val gotoSnapshots: Boolean = false,
+    val gotoSnapshots: Boolean = false
 ) {
     val isEmpty = aSnapshot == EMPTY_SNAPSHOT
     val title = if (isEmpty) "" else "Details"

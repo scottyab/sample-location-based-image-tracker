@@ -38,7 +38,7 @@ class DetailsActivity : ComponentActivity() {
 
         fun openIntentExisting(
             context: Context,
-            snapshotId: String,
+            snapshotId: String
         ) = openIntent(context).putExtra(EXTRA_SNAPSHOT_ID, snapshotId)
     }
 }

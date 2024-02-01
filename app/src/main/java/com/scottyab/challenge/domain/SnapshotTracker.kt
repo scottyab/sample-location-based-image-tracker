@@ -6,8 +6,8 @@ import com.scottyab.challenge.domain.model.TrackingState
 import com.scottyab.challenge.domain.usecase.NewLocationUsecase
 import com.scottyab.challenge.domain.usecase.NewLocationUsecaseResult
 import com.scottyab.challenge.domain.usecase.StartActivityUsecase
-import com.scottyab.challenge.domain.usecase.StopActivityUsecase
 import com.scottyab.challenge.domain.usecase.StartActivityUsecaseResult
+import com.scottyab.challenge.domain.usecase.StopActivityUsecase
 import com.scottyab.challenge.presentation.common.AppCoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow

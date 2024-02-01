@@ -15,17 +15,17 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AppProgressIndicator(
     modifier: Modifier = Modifier,
-    progressContentDescription: String = "Loading",
+    progressContentDescription: String = "Loading"
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier =
-            Modifier.fillMaxSize().semantics {
-                contentDescription = progressContentDescription
-            },
+        Modifier.fillMaxSize().semantics {
+            contentDescription = progressContentDescription
+        }
     ) {
         CircularProgressIndicator(
-            modifier = modifier.padding(8.dp).size(36.dp),
+            modifier = modifier.padding(8.dp).size(36.dp)
         )
     }
 }

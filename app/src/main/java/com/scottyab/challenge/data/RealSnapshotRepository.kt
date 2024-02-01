@@ -17,7 +17,7 @@ class RealSnapshotRepository(
     private val flickrService: FlickrService,
     private val snapshotMapper: SnapshotMapper,
     private val photoMapper: PhotoMapper,
-    private val snapshotDao: SnapshotDao,
+    private val snapshotDao: SnapshotDao
 ) : SnapshotRepository {
     override fun getSnapshots(activityId: String): Flow<List<Snapshot>> =
         snapshotDao.observeSnapshots(activityId).map(snapshotMapper::toDomain)
@@ -26,7 +26,7 @@ class RealSnapshotRepository(
 
     override suspend fun addSnapshot(
         activityId: String,
-        location: Location,
+        location: Location
     ) {
         try {
             val photos = downloadPhotos(location)
@@ -46,7 +46,7 @@ class RealSnapshotRepository(
      */
     private fun findUniquePhoto(
         activityId: String,
-        photos: List<Photo>,
+        photos: List<Photo>
     ): Photo? {
         if (photos.isEmpty()) return null
 

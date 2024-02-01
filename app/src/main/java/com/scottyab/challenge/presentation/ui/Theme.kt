@@ -21,31 +21,31 @@ private val SampleAppColorScheme =
         onSecondary = White,
         onTertiary = Black,
         onBackground = Black,
-        onSurface = White,
+        onSurface = White
     )
 
 @Composable
 fun SampleAppTheme(
     colorScheme: ColorScheme = SampleAppColorScheme,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     MaterialTheme(
         colorScheme = colorScheme,
         typography =
-            Typography(
-                labelLarge =
-                    TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        lineHeight = 24.sp,
-                    ),
-                titleLarge =
-                    TextStyle(
-                        fontSize = 19.sp,
-                        fontWeight = FontWeight.W600,
-                        lineHeight = 24.sp,
-                    ),
+        Typography(
+            labelLarge =
+            TextStyle(
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                lineHeight = 24.sp
             ),
-        content = content,
+            titleLarge =
+            TextStyle(
+                fontSize = 19.sp,
+                fontWeight = FontWeight.W600,
+                lineHeight = 24.sp
+            )
+        ),
+        content = content
     )
 }

@@ -47,7 +47,7 @@ import java.time.LocalDateTime
 @Composable
 fun DetailsScreen(
     uiState: DetailsState,
-    uiEventReceiver: (DetailsUiEvent) -> Unit,
+    uiEventReceiver: (DetailsUiEvent) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -56,17 +56,17 @@ fun DetailsScreen(
         topBar = {
             DefaultTopBar(
                 uiState.title,
-                onBackIconClick = { uiEventReceiver.invoke(UpClick) },
+                onBackIconClick = { uiEventReceiver.invoke(UpClick) }
             )
         },
-        contentWindowInsets = WindowInsets(0, 0, 0, 0),
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { padding ->
         if (uiState.showSnackMessage) {
             LaunchedEffect(scope, uiState.snackMessage, snackbarHostState) {
                 val result =
                     snackbarHostState.showSnackbar(
                         message = uiState.snackMessage,
-                        duration = SnackbarDuration.Short,
+                        duration = SnackbarDuration.Short
                     )
                 when (result) {
                     SnackbarResult.Dismissed -> uiEventReceiver.invoke(SnackMessageShown)
@@ -83,18 +83,18 @@ fun DetailsScreen(
                 modifier =
                 Modifier
                     .padding(padding)
-                    .fillMaxSize(),
+                    .fillMaxSize()
             ) {
                 Column(
                     modifier =
                     Modifier
                         .verticalScroll(rememberScrollState())
-                        .weight(1f),
+                        .weight(1f)
                 ) {
                     // content goes here
                     SnapShotDetailsComposable(
                         snapshot = uiState.aSnapshot,
-                        shareClick = { uiEventReceiver.invoke(ShareClick(uiState.aSnapshot.imageUrl)) },
+                        shareClick = { uiEventReceiver.invoke(ShareClick(uiState.aSnapshot.imageUrl)) }
                     )
                 }
             }
@@ -105,19 +105,19 @@ fun DetailsScreen(
 @Composable
 fun SnapShotDetailsComposable(
     snapshot: SnapshotUi,
-    shareClick: () -> Unit,
+    shareClick: () -> Unit
 ) {
     Column(
         modifier =
         Modifier
             .fillMaxSize()
-            .padding(4.dp),
+            .padding(4.dp)
     ) {
         SubcomposeAsyncImage(
             model = snapshot.imageUrl,
             contentDescription = stringResource(R.string.snapshot_image_cd),
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
         )
 
         BasicText(text = snapshot.title, style = MaterialTheme.typography.headlineLarge)
@@ -127,11 +127,11 @@ fun SnapShotDetailsComposable(
             modifier =
             Modifier
                 .padding(16.dp)
-                .align(Alignment.CenterHorizontally),
+                .align(Alignment.CenterHorizontally)
         ) {
             Icon(
                 imageVector = Icons.Filled.Share,
-                contentDescription = stringResource(R.string.details_share_button_cd),
+                contentDescription = stringResource(R.string.details_share_button_cd)
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text(stringResource(R.string.details_share_button))
@@ -147,11 +147,11 @@ fun DetailsScreenPreview() {
             id = "123",
             title = "This is a title",
             imageUrl = "",
-            recordedAt = LocalDateTime.now(),
+            recordedAt = LocalDateTime.now()
         )
     val uiState =
         DetailsState(
-            aSnapshot = snapshotUi,
+            aSnapshot = snapshotUi
         )
     SampleAppTheme {
         DetailsScreen(uiState) {}

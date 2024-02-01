@@ -80,7 +80,7 @@ class SnapshotsActivity : AppCompatActivity() {
         val permissions =
             mutableListOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
             )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -100,7 +100,7 @@ class SnapshotsActivity : AppCompatActivity() {
 
     private fun bindView(
         snapshots: List<SnapshotUi>,
-        toggleButtonTextResId: Int,
+        toggleButtonTextResId: Int
     ) {
         adapter.submitList(snapshots)
         binding.snapshotsRecyclerview.smoothScrollToPosition(0)
@@ -115,10 +115,10 @@ class SnapshotsActivity : AppCompatActivity() {
                     startActivity(
                         DetailsActivity.openIntentExisting(
                             context = this,
-                            snapshotId = snapshot.id,
-                        ),
+                            snapshotId = snapshot.id
+                        )
                     )
-                },
+                }
             )
 
         binding.apply {
@@ -143,7 +143,7 @@ class SnapshotsActivity : AppCompatActivity() {
 
         fun openIntentExisting(
             context: Context,
-            activityId: String,
+            activityId: String
         ) = openIntent(context).putExtra(EXTRA_ACTIVITY_ID, activityId)
 
         fun openFromNotificationPendingIntent(context: Context) =
@@ -151,7 +151,7 @@ class SnapshotsActivity : AppCompatActivity() {
                 context,
                 OPEN_FROM_NOTIFICATION_RC,
                 openIntent(context),
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
     }
 }

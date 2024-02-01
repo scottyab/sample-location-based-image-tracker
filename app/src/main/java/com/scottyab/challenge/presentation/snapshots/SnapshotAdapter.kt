@@ -12,11 +12,11 @@ import com.scottyab.challenge.presentation.snapshots.model.SnapshotUi
 
 internal class SnapshotAdapter(
     private val imageLoader: ImageLoader,
-    private val onItemClick: (item: SnapshotUi) -> Unit,
+    private val onItemClick: (item: SnapshotUi) -> Unit
 ) : ListAdapter<SnapshotUi, SnapshotAdapter.SnapshotViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: Int,
+        viewType: Int
     ): SnapshotViewHolder {
         val binding = ListItemSnapshotBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SnapshotViewHolder(binding, imageLoader)
@@ -24,18 +24,18 @@ internal class SnapshotAdapter(
 
     override fun onBindViewHolder(
         holder: SnapshotViewHolder,
-        position: Int,
+        position: Int
     ) {
         holder.bind(snapshotUi1 = getItem(position), onSelected = onItemClick)
     }
 
     class SnapshotViewHolder(
         private val binding: ListItemSnapshotBinding,
-        private val imageLoader: ImageLoader,
+        private val imageLoader: ImageLoader
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
             snapshotUi1: SnapshotUi,
-            onSelected: (snapshotUi: SnapshotUi) -> Unit,
+            onSelected: (snapshotUi: SnapshotUi) -> Unit
         ) {
             imageLoader.load(snapshotUi1.imageUrl, binding.snapshotImageview)
             // ensuring there's CD from a accessibility point of view
@@ -51,11 +51,11 @@ private val DIFF_CALLBACK =
     object : DiffUtil.ItemCallback<SnapshotUi>() {
         override fun areItemsTheSame(
             oldItem: SnapshotUi,
-            newItem: SnapshotUi,
+            newItem: SnapshotUi
         ) = oldItem.id == newItem.id
 
         override fun areContentsTheSame(
             oldItem: SnapshotUi,
-            newItem: SnapshotUi,
+            newItem: SnapshotUi
         ) = oldItem == newItem
     }

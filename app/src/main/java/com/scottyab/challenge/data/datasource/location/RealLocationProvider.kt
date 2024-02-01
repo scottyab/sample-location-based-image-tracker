@@ -3,7 +3,6 @@ package com.scottyab.challenge.data.datasource.location
 import android.content.Context
 import com.scottyab.challenge.domain.model.Location
 import com.scottyab.challenge.presentation.common.AppCoroutineScope
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

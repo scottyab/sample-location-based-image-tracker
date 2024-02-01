@@ -71,7 +71,7 @@ val networkModule =
                         if (BuildConfig.DEBUG) {
                             setLevel(HttpLoggingInterceptor.Level.BASIC)
                         }
-                    },
+                    }
                 ).build()
         }
 
@@ -95,7 +95,7 @@ val domainModule =
                 flickrService = get(),
                 snapshotMapper = get(),
                 snapshotDao = get(),
-                photoMapper = get(),
+                photoMapper = get()
             )
         }
         factory { SnapshotMapper(idGenerator = get()) }
@@ -106,27 +106,27 @@ val domainModule =
             RealActivityRepository(
                 activityMapper = get(),
                 activityDao = get(),
-                idGenerator = get(),
+                idGenerator = get()
             )
         }
 
         factory {
             NewLocationUsecase(
                 snapshotRepository = get(),
-                locationCalculator = get(),
+                locationCalculator = get()
             )
         }
 
         factory {
             StopActivityUsecase(
-                activityRepository = get(),
+                activityRepository = get()
             )
         }
 
         factory {
             StartActivityUsecase(
                 activityNameGenerator = get(),
-                activityRepository = get(),
+                activityRepository = get()
             )
         }
 
@@ -136,7 +136,7 @@ val domainModule =
                 newLocationUsecase = get(),
                 startActivityUsecase = get(),
                 stopActivityUsecase = get(),
-                appCoroutineScope = get(),
+                appCoroutineScope = get()
             )
         }
     }
@@ -151,13 +151,13 @@ val dataModule =
             LocationServiceNotificationHelper(
                 context = androidContext(),
                 androidResources = get(),
-                notificationManager = get(),
+                notificationManager = get()
             )
         }
         single {
             RealLocationProvider(
                 context = androidContext(),
-                appCoroutineScope = get(),
+                appCoroutineScope = get()
             )
         }
 
@@ -166,7 +166,7 @@ val dataModule =
                 SampleLocationProvider(
                     context = androidContext(),
                     moshi = get(),
-                    appCoroutineScope = get(),
+                    appCoroutineScope = get()
                 )
             } else {
                 get<RealLocationProvider>()
@@ -181,12 +181,12 @@ val presentationModule =
             SnapshotsViewModel(
                 snapshotRepository = get(),
                 snapshotUiMapper = get(),
-                snapshotTracker = get(),
+                snapshotTracker = get()
             )
         }
         viewModel {
             ActivitiesViewModel(
-                activityRepository = get(),
+                activityRepository = get()
             )
         }
 
@@ -194,7 +194,7 @@ val presentationModule =
             DetailsViewModel(
                 snapshotRepository = get(),
                 snapshotUiMapper = get(),
-                snapshotId = snapshotId,
+                snapshotId = snapshotId
             )
         }
     }

@@ -9,7 +9,7 @@ interface SnapshotRepository {
 
     suspend fun addSnapshot(
         activityId: String,
-        location: Location,
+        location: Location
     )
 
     suspend fun getSnapShot(snapshotId: String): Snapshot

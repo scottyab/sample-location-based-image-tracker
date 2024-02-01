@@ -21,9 +21,9 @@ import java.time.LocalDateTime
             entity = ActivityDb::class,
             parentColumns = ["id"],
             childColumns = ["activity_id"],
-            onDelete = ForeignKey.CASCADE,
-        ),
-    ],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
 )
 data class SnapshotDb(
     @PrimaryKey
@@ -37,7 +37,7 @@ data class SnapshotDb(
     @ColumnInfo(name = "created_at")
     val createdAt: LocalDateTime = nowUTC(),
     val latitude: String,
-    val longitude: String,
+    val longitude: String
 )
 
 @Dao

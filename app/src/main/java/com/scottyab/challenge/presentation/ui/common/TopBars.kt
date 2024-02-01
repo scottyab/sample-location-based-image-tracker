@@ -17,7 +17,7 @@ import com.scottyab.challenge.R
 @Composable
 fun DefaultTopBar(
     titleText: String,
-    onBackIconClick: () -> Unit,
+    onBackIconClick: () -> Unit
 ) {
     TopAppBar(
         title = { Text(titleText) },
@@ -26,6 +26,6 @@ fun DefaultTopBar(
             IconButton(onClick = { onBackIconClick.invoke() }) {
                 Icon(Icons.Default.ArrowBack, contentDescription = stringResource(id = R.string.back_button))
             }
-        },
+        }
     )
 }

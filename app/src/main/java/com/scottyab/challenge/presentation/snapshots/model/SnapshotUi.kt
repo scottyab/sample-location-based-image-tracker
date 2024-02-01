@@ -12,7 +12,7 @@ data class SnapshotUi(
     val id: String,
     val title: String,
     val imageUrl: String,
-    val recordedAt: LocalDateTime,
+    val recordedAt: LocalDateTime
 ) : Parcelable {
 
     @IgnoredOnParcel
@@ -25,5 +25,5 @@ val EMPTY_SNAPSHOT =
         id = "",
         imageUrl = "",
         title = "",
-        recordedAt = LocalDateTime.now(),
+        recordedAt = LocalDateTime.now()
     )
