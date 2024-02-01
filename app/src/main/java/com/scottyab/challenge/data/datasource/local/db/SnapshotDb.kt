@@ -21,9 +21,9 @@ import java.time.LocalDateTime
             entity = ActivityDb::class,
             parentColumns = ["id"],
             childColumns = ["activity_id"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 data class SnapshotDb(
     @PrimaryKey
@@ -37,17 +37,19 @@ data class SnapshotDb(
     @ColumnInfo(name = "created_at")
     val createdAt: LocalDateTime = nowUTC(),
     val latitude: String,
-    val longitude: String
+    val longitude: String,
 )
 
 @Dao
 interface SnapshotDao {
-
     @Query("select * from Snapshot WHERE activity_id=:activityId ORDER BY datetime(Snapshot.created_at) DESC")
     fun observeSnapshots(activityId: String): Flow<List<SnapshotDb>>
 
     @Query("select * from Snapshot WHERE activity_id=:activityId ORDER BY photoId")
     fun getSnapshots(activityId: String): List<SnapshotDb>
+
+    @Query("select * from Snapshot WHERE photoId=:photoId")
+    fun getSnapshot(photoId: String): SnapshotDb
 
     @Insert(onConflict = ABORT)
     suspend fun insert(snapshot: SnapshotDb)

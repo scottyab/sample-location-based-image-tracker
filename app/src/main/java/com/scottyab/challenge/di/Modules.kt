@@ -33,6 +33,7 @@ import com.scottyab.challenge.presentation.common.AppCoroutineScope
 import com.scottyab.challenge.presentation.common.CoilImageLoader
 import com.scottyab.challenge.presentation.common.ImageLoader
 import com.scottyab.challenge.presentation.common.SimpleThrottler
+import com.scottyab.challenge.presentation.details.DetailsViewModel
 import com.scottyab.challenge.presentation.snapshots.SnapshotUiMapper
 import com.scottyab.challenge.presentation.snapshots.SnapshotsViewModel
 import com.squareup.moshi.Moshi
@@ -45,144 +46,157 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-val appModule = module {
-    single<ImageLoader> { CoilImageLoader() }
-    single { AppCoroutineScope() }
-    single<AndroidResources> { AndroidResourcesProvider(androidContext()) }
-    factory { SimpleThrottler() }
-    single { androidContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
-    factory<LocationCalculator> { AndroidLocationCalculator() }
-}
-
-val networkModule = module {
-    single {
-        Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
+val appModule =
+    module {
+        single<ImageLoader> { CoilImageLoader() }
+        single { AppCoroutineScope() }
+        single<AndroidResources> { AndroidResourcesProvider(androidContext()) }
+        factory { SimpleThrottler() }
+        single { androidContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
+        factory<LocationCalculator> { AndroidLocationCalculator() }
     }
 
-    single {
-        OkHttpClient.Builder()
-            .addInterceptor(
-                HttpLoggingInterceptor().apply {
-                    if (BuildConfig.DEBUG) {
-                        setLevel(HttpLoggingInterceptor.Level.BASIC)
-                    }
-                }
-            ).build()
-    }
+val networkModule =
+    module {
+        single {
+            Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
+        }
 
-    single<FlickrService> {
-        Retrofit.Builder()
-            .baseUrl(BuildConfig.FLICKR_BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(get()))
-            .client(get())
-            .build()
-            .create(FlickrService::class.java)
-    }
-}
+        single {
+            OkHttpClient.Builder()
+                .addInterceptor(
+                    HttpLoggingInterceptor().apply {
+                        if (BuildConfig.DEBUG) {
+                            setLevel(HttpLoggingInterceptor.Level.BASIC)
+                        }
+                    },
+                ).build()
+        }
 
-val domainModule = module {
-    factory<IdGenerator> { UUIDGenerator() }
-    factory<ActivityNameGenerator> { TimeOfDayActivityNameGenerator() }
-
-    factory<SnapshotRepository> {
-        RealSnapshotRepository(
-            flickrService = get(),
-            snapshotMapper = get(),
-            snapshotDao = get(),
-            photoMapper = get()
-        )
-    }
-    factory { SnapshotMapper(idGenerator = get()) }
-    factory { PhotoMapper() }
-    factory { ActivityMapper() }
-
-    factory<ActivityRepository> {
-        RealActivityRepository(
-            activityMapper = get(),
-            activityDao = get(),
-            idGenerator = get()
-        )
-    }
-
-    factory {
-        NewLocationUsecase(
-            snapshotRepository = get(),
-            locationCalculator = get()
-        )
-    }
-
-    factory {
-        StopActivityUsecase(
-            activityRepository = get()
-        )
-    }
-
-    factory {
-        StartActivityUsecase(
-            activityNameGenerator = get(),
-            activityRepository = get()
-        )
-    }
-
-    single {
-        SnapshotTracker(
-            locationProvider = get(),
-            newLocationUsecase = get(),
-            startActivityUsecase = get(),
-            stopActivityUsecase = get(),
-            appCoroutineScope = get()
-        )
-    }
-}
-
-val dataModule = module {
-    single { TrackerDatabase.getInstance(androidContext()) }
-    factory { get<TrackerDatabase>().snapshotsDao() }
-    factory { get<TrackerDatabase>().activityDao() }
-
-    factory {
-        LocationServiceNotificationHelper(
-            context = androidContext(),
-            androidResources = get(),
-            notificationManager = get()
-        )
-    }
-    single {
-        RealLocationProvider(
-            context = androidContext(),
-            appCoroutineScope = get()
-        )
-    }
-
-    single<LocationProvider> {
-        if (BuildConfig.SAMPLE_LOCATIONS) {
-            SampleLocationProvider(
-                context = androidContext(),
-                moshi = get(),
-                appCoroutineScope = get()
-            )
-        } else {
-            get<RealLocationProvider>()
+        single<FlickrService> {
+            Retrofit.Builder()
+                .baseUrl(BuildConfig.FLICKR_BASE_URL)
+                .addConverterFactory(MoshiConverterFactory.create(get()))
+                .client(get())
+                .build()
+                .create(FlickrService::class.java)
         }
     }
-}
 
-val presentationModule = module {
-    factory { SnapshotUiMapper() }
-    viewModel {
-        SnapshotsViewModel(
-            snapshotRepository = get(),
-            snapshotUiMapper = get(),
-            snapshotTracker = get()
-        )
+val domainModule =
+    module {
+        factory<IdGenerator> { UUIDGenerator() }
+        factory<ActivityNameGenerator> { TimeOfDayActivityNameGenerator() }
+
+        factory<SnapshotRepository> {
+            RealSnapshotRepository(
+                flickrService = get(),
+                snapshotMapper = get(),
+                snapshotDao = get(),
+                photoMapper = get(),
+            )
+        }
+        factory { SnapshotMapper(idGenerator = get()) }
+        factory { PhotoMapper() }
+        factory { ActivityMapper() }
+
+        factory<ActivityRepository> {
+            RealActivityRepository(
+                activityMapper = get(),
+                activityDao = get(),
+                idGenerator = get(),
+            )
+        }
+
+        factory {
+            NewLocationUsecase(
+                snapshotRepository = get(),
+                locationCalculator = get(),
+            )
+        }
+
+        factory {
+            StopActivityUsecase(
+                activityRepository = get(),
+            )
+        }
+
+        factory {
+            StartActivityUsecase(
+                activityNameGenerator = get(),
+                activityRepository = get(),
+            )
+        }
+
+        single {
+            SnapshotTracker(
+                locationProvider = get(),
+                newLocationUsecase = get(),
+                startActivityUsecase = get(),
+                stopActivityUsecase = get(),
+                appCoroutineScope = get(),
+            )
+        }
     }
-    viewModel {
-        ActivitiesViewModel(
-            activityRepository = get()
-        )
+
+val dataModule =
+    module {
+        single { TrackerDatabase.getInstance(androidContext()) }
+        factory { get<TrackerDatabase>().snapshotsDao() }
+        factory { get<TrackerDatabase>().activityDao() }
+
+        factory {
+            LocationServiceNotificationHelper(
+                context = androidContext(),
+                androidResources = get(),
+                notificationManager = get(),
+            )
+        }
+        single {
+            RealLocationProvider(
+                context = androidContext(),
+                appCoroutineScope = get(),
+            )
+        }
+
+        single<LocationProvider> {
+            if (BuildConfig.SAMPLE_LOCATIONS) {
+                SampleLocationProvider(
+                    context = androidContext(),
+                    moshi = get(),
+                    appCoroutineScope = get(),
+                )
+            } else {
+                get<RealLocationProvider>()
+            }
+        }
     }
-}
+
+val presentationModule =
+    module {
+        factory { SnapshotUiMapper() }
+        viewModel {
+            SnapshotsViewModel(
+                snapshotRepository = get(),
+                snapshotUiMapper = get(),
+                snapshotTracker = get(),
+            )
+        }
+        viewModel {
+            ActivitiesViewModel(
+                activityRepository = get(),
+            )
+        }
+
+        viewModel { (snapshotId: String) ->
+            DetailsViewModel(
+                snapshotRepository = get(),
+                snapshotUiMapper = get(),
+                snapshotId = snapshotId,
+            )
+        }
+    }
 
 val allModules = listOf(appModule, networkModule, domainModule, dataModule, presentationModule)

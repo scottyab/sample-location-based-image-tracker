@@ -17,7 +17,7 @@ The goal of this sample app is to demonstrate my technical ability and preferred
 
 * [RealSnapshotRepository](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/main/java/com/scottyab/challenge/data/RealSnapshotRepository.kt) and it's [test](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/test/java/com/scottyab/challenge/data/RealSnapshotRepositoryTest.kt)
 * [SnapshotTracker](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/main/java/com/scottyab/challenge/domain/SnapshotTracker.kt) and it's [test](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/test/java/com/scottyab/challenge/domain/SnapshotTrackerTest.kt)
-* [SnapshotViewModel](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/main/java/com/scottyab/challenge/presentation/snapshots/SnapshotsViewModel.kt) and it's [test](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/test/java/com/scottyab/challenge/presentation/snapshots/SnapshotsViewModelTest.kt) 
+* [SnapshotViewModel](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/main/java/com/scottyab/challenge/presentation/snapshots/DetailsViewModel.kt) and it's [test](https://github.com/scottyab/sample-location-based-image-tracker/blob/main/app/src/test/java/com/scottyab/challenge/presentation/snapshots/SnapshotsViewModelTest.kt) 
 
 
 ## Brief: Location based image tracker
@@ -110,10 +110,11 @@ Some notes how I might look to enhance this further outside of the requirements
 
 #### Additional ideas to showcase skills/experience 
 
-* Automated version generation 
+* Automated version code and number generation
 * CI integration, run junit tests on PR
- * Create beta pipeline to upload to appetize.io/appcircle 
-* CD integration with publishing to Play store triggered on tag
+ * Create beta pipeline to upload to appetize.io/appcircle
+ * Tags to trigger release build and upload of Github version
+* CD integration with publishing to Play store (triggered on tag)
 
 
  
