@@ -23,5 +23,9 @@
     <string name="cd_new_activity">Start new Activity</string>
     <string name="activities_title">Recorded Activities</string>
     <string name="activities_empty_text">No activities recorded, tap the plus Icon to start recording a new Activity.</string>
+    <string name="back_button">Back</string>
+    <string name="details_share_button">Share</string>
+    <string name="details_share_button_cd">Share</string>
+    <string name="snapshot_image_cd">Snapshot Image</string>
 
 </resources>
