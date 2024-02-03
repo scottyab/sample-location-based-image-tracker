@@ -110,10 +110,11 @@ Some notes how I might look to enhance this further outside of the requirements
 
 #### Additional ideas to showcase skills/experience 
 
-* Automated version generation 
+* Automated version code and number generation
 * CI integration, run junit tests on PR
- * Create beta pipeline to upload to appetize.io/appcircle 
-* CD integration with publishing to Play store triggered on tag
+ * Create beta pipeline to upload to appetize.io/appcircle
+ * Tags to trigger release build and upload of Github version
+* CD integration with publishing to Play store (triggered on tag)
 
 
  
