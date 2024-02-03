@@ -42,12 +42,14 @@ data class SnapshotDb(
 
 @Dao
 interface SnapshotDao {
-
     @Query("select * from Snapshot WHERE activity_id=:activityId ORDER BY datetime(Snapshot.created_at) DESC")
     fun observeSnapshots(activityId: String): Flow<List<SnapshotDb>>
 
     @Query("select * from Snapshot WHERE activity_id=:activityId ORDER BY photoId")
     fun getSnapshots(activityId: String): List<SnapshotDb>
+
+    @Query("select * from Snapshot WHERE photoId=:photoId")
+    fun getSnapshot(photoId: String): SnapshotDb
 
     @Insert(onConflict = ABORT)
     suspend fun insert(snapshot: SnapshotDb)

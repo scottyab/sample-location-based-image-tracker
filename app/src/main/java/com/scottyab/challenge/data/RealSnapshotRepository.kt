@@ -19,11 +19,15 @@ class RealSnapshotRepository(
     private val photoMapper: PhotoMapper,
     private val snapshotDao: SnapshotDao
 ) : SnapshotRepository {
-
     override fun getSnapshots(activityId: String): Flow<List<Snapshot>> =
         snapshotDao.observeSnapshots(activityId).map(snapshotMapper::toDomain)
 
-    override suspend fun addSnapshot(activityId: String, location: Location) {
+    override suspend fun getSnapShot(snapshotId: String): Snapshot = snapshotMapper.toDomain(snapshotDao.getSnapshot(snapshotId))
+
+    override suspend fun addSnapshot(
+        activityId: String,
+        location: Location
+    ) {
         try {
             val photos = downloadPhotos(location)
             // if there is not a unique photo skip adding it
@@ -40,7 +44,10 @@ class RealSnapshotRepository(
     /**
      * @return the first Photo from the list that is not already have saved in the DB
      */
-    private fun findUniquePhoto(activityId: String, photos: List<Photo>): Photo? {
+    private fun findUniquePhoto(
+        activityId: String,
+        photos: List<Photo>
+    ): Photo? {
         if (photos.isEmpty()) return null
 
         val exitingPhotoIds = snapshotDao.getSnapshots(activityId).map { it.photoId }

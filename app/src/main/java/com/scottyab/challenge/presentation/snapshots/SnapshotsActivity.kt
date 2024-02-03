@@ -13,16 +13,15 @@ import com.scottyab.challenge.databinding.ActivitySnapshotsListBinding
 import com.scottyab.challenge.presentation.common.ImageLoader
 import com.scottyab.challenge.presentation.common.SimpleThrottler
 import com.scottyab.challenge.presentation.common.action
-import com.scottyab.challenge.presentation.common.createShareIntent
 import com.scottyab.challenge.presentation.common.openAppSettings
 import com.scottyab.challenge.presentation.common.snack
 import com.scottyab.challenge.presentation.common.viewBinding
+import com.scottyab.challenge.presentation.details.DetailsActivity
 import com.scottyab.challenge.presentation.snapshots.model.SnapshotUi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SnapshotsActivity : AppCompatActivity() {
-
     private val binding by viewBinding(ActivitySnapshotsListBinding::inflate)
     private val imageLoader by inject<ImageLoader>()
     private val clickThrottler by inject<SimpleThrottler>()
@@ -30,19 +29,20 @@ class SnapshotsActivity : AppCompatActivity() {
 
     private lateinit var adapter: SnapshotAdapter
 
-    private val locationPermissionRequest = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-        when {
-            // todo more robust checking of all the permissions needed
-            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                // request background location permission (needs to be a separate request)
-                checkBackgroundLocationPermission()
-            } else -> {
-                snack(getString(R.string.location_permission_denied_msg)) {
-                    action(getString(R.string.location_permission_denied_action)) { openAppSettings() }
+    private val locationPermissionRequest =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            when {
+                // todo more robust checking of all the permissions needed
+                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                    // request background location permission (needs to be a separate request)
+                    checkBackgroundLocationPermission()
+                } else -> {
+                    snack(getString(R.string.location_permission_denied_msg)) {
+                        action(getString(R.string.location_permission_denied_action)) { openAppSettings() }
+                    }
                 }
             }
         }
-    }
 
     private val backgroundPermissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -75,10 +75,11 @@ class SnapshotsActivity : AppCompatActivity() {
     }
 
     private fun checkRequiredPermissions() {
-        val permissions = mutableListOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        )
+        val permissions =
+            mutableListOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
@@ -95,29 +96,28 @@ class SnapshotsActivity : AppCompatActivity() {
         }
     }
 
-    private fun bindView(snapshots: List<SnapshotUi>, toggleButtonTextResId: Int) {
+    private fun bindView(
+        snapshots: List<SnapshotUi>,
+        toggleButtonTextResId: Int
+    ) {
         adapter.submitList(snapshots)
         binding.snapshotsRecyclerview.smoothScrollToPosition(0)
         binding.toolbar.menu.findItem(R.id.menu_toggle)?.title = getString(toggleButtonTextResId)
     }
 
     private fun initView() {
-        adapter = SnapshotAdapter(
-            imageLoader = imageLoader,
-            onItemClick = { snapshot ->
-                // This is added for demo purposes to show we could do something with onClick
-                // if this were real app this would be handled by VM or navigator
-                snack(snapshot.title) {
-                    action(getString(R.string.snapshot_share)) {
-                        startActivity(
-                            createShareIntent(
-                                getString(R.string.snapshot_share_text, snapshot.imageUrl)
-                            )
+        adapter =
+            SnapshotAdapter(
+                imageLoader = imageLoader,
+                onItemClick = { snapshot ->
+                    startActivity(
+                        DetailsActivity.openIntentExisting(
+                            context = this,
+                            snapshotId = snapshot.id
                         )
-                    }
+                    )
                 }
-            }
-        )
+            )
 
         binding.apply {
             setContentView(root)
@@ -139,14 +139,17 @@ class SnapshotsActivity : AppCompatActivity() {
 
         fun openIntent(context: Context) = Intent(context, SnapshotsActivity::class.java)
 
-        fun openIntentExisting(context: Context, activityId: String) =
-            openIntent(context).putExtra(EXTRA_ACTIVITY_ID, activityId)
+        fun openIntentExisting(
+            context: Context,
+            activityId: String
+        ) = openIntent(context).putExtra(EXTRA_ACTIVITY_ID, activityId)
 
-        fun openFromNotificationPendingIntent(context: Context) = PendingIntent.getActivity(
-            context,
-            OPEN_FROM_NOTIFICATION_RC,
-            openIntent(context),
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        fun openFromNotificationPendingIntent(context: Context) =
+            PendingIntent.getActivity(
+                context,
+                OPEN_FROM_NOTIFICATION_RC,
+                openIntent(context),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
     }
 }
