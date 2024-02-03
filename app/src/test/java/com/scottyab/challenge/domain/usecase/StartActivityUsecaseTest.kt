@@ -9,7 +9,6 @@ import com.scottyab.challenge.domain.ActivityNameGenerator
 import com.scottyab.challenge.domain.ActivityRepository
 import com.scottyab.challenge.domain.model.Activity
 import com.scottyab.challenge.domain.usecase.StartActivityUsecaseResult.Success
-import com.scottyab.challenge.isInstanceOf
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.AssertionsForInterfaceTypes.assertThat
 import org.junit.Before
@@ -61,7 +60,7 @@ class StartActivityUsecaseTest {
             val result = sut.invoke()
 
             verify(activityRepository, never()).newActivity(any())
-            assertThat(result).isInstanceOf<Success> {
+            assertThat(result).isInstanceOf(Success::class.java) {
                 assertThat(it.activityId).isEqualTo(existingActivityId)
             }
         }

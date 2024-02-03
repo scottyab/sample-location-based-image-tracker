@@ -27,14 +27,13 @@ internal class ActivitiesAdapter(
     }
 
     class ActivityViewHolder(
-        private val binding: ListItemActivityBinding,
+        private val binding: ListItemActivityBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
             activity: Activity,
             onActivitySelected: (item: Activity) -> Unit
         ) {
-
             binding.apply {
                 title.text = activity.title
                 root.throttledClick { onActivitySelected.invoke(activity) }
